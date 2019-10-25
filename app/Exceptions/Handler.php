@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -46,6 +47,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof QueryException) {
+            if ($request->wantsJson()) {
+                return response()->json(['message' => __('The given data was invalid.')], 400);
+            }
+            return redirect()->back()->withErrors(['message' => __('The given data was invalid.')]);
+        }
+
         return parent::render($request, $exception);
     }
 }

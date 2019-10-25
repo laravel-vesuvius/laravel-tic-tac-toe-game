@@ -11,6 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'WelcomeController@index')
+    ->name('welcome');
+
+Route::resource('games', 'GameController')->except(['destroy']);
+
+Route::post('game-histories', 'GameHistoryController@store')
+    ->name('gameHistories.store');
+
+Route::post('game-rounds', 'GameRoundController@store')
+    ->name('gameRounds.store');

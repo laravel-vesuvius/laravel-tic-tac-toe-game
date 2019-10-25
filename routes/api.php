@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('games', 'Api\GameController')->except(['destroy']);
+
+Route::post('game-histories', 'Api\GameHistoryController@store');
+
+Route::post('game-rounds', 'Api\GameRoundController@store');
